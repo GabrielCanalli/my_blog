@@ -38,7 +38,17 @@ export const SOCIALS: SocialObjects = [
   {
     name: "Github",
     href: "https://github.com/Canalli171",
-    linkTitle: ` ${SITE.title} no Github`,
+    linkTitle: `${SITE.title} no Github`,
     active: true,
   },
 ];
+
+// ESTA PARTE É A CHAVE PARA O CONTENT.CONFIG.TS FUNCIONAR:
+const config = {
+  site: SITE,
+  locale: LOCALE,
+  logoImage: LOGO_IMAGE,
+  socials: SOCIALS,
+};
+
+export default config;
