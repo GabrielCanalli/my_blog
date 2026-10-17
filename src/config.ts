@@ -16,6 +16,13 @@ export const SITE = {
     text: "Suggest Changes",
     appendFilePath: true,
   },
+  // Propriedades essenciais exigidas pelos componentes do AstroPaper v6:
+  url: "https://my-blog-amber-one.vercel.app/",
+  lang: "pt-BR",
+  dir: "ltr" as const,
+  description: "Diário de escrita e bastidores da criação dos meus livros e também para comentar sobre coisas que eu gosto e da minha vida pessoal",
+  timezone: "America/Sao_Paulo",
+  googleVerification: "",
 };
 
 export const LOCALE = {
@@ -56,20 +63,20 @@ export const SHARE_LINKS = [
   },
 ];
 
-export const site = SITE;
-export const locale = LOCALE;
-export const logoImage = LOGO_IMAGE;
-export const socials = SOCIALS;
-export const shareLinks = SHARE_LINKS;
-
 export const posts = {
   postPerIndex: SITE.postPerIndex,
   postPerPage: SITE.postPerPage,
+  perPage: SITE.postPerPage, // Suporte para ambos os nomes de propriedade
   scheduledPostMargin: SITE.scheduledPostMargin,
 };
 
 export const features = {
   editPost: SITE.editPost,
+  showArchives: SITE.showArchives,
+  lightAndDarkMode: SITE.lightAndDarkMode,
+  search: "pagefind" as const,
+  showBackButton: true,
+  dynamicOgImage: false,
 };
 
 const config = {
@@ -80,7 +87,6 @@ const config = {
   shareLinks: SHARE_LINKS,
   posts,
   features,
-  ...SITE,
 };
 
 export default config;
