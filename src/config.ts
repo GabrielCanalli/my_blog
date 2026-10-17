@@ -43,12 +43,30 @@ export const SOCIALS: SocialObjects = [
   },
 ];
 
-// ESTA PARTE É A CHAVE PARA O CONTENT.CONFIG.TS FUNCIONAR:
+// Configuração para compatibilidade interna
+export const site = SITE;
+export const locale = LOCALE;
+export const logoImage = LOGO_IMAGE;
+export const socials = SOCIALS;
+
+export const posts = {
+  postPerIndex: SITE.postPerIndex,
+  postPerPage: SITE.postPerPage,
+  scheduledPostMargin: SITE.scheduledPostMargin,
+};
+
+export const features = {
+  editPost: SITE.editPost,
+};
+
+// Export default completo para o content.config.ts e componentes legados
 const config = {
   site: SITE,
   locale: LOCALE,
   logoImage: LOGO_IMAGE,
   socials: SOCIALS,
+  posts,
+  features,
 };
 
 export default config;
