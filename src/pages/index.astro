@@ -71,8 +71,8 @@ const homePath = getRelativeLocaleUrl(locale, "");
               Em Destaque
             </h2>
             <ul>
-              {featuredPosts.map(({ id, data }) => (
-                <Card id={id} data={data} secHeading={false} />
+              {featuredPosts.map(post => (
+                <Card id={post.id} data={post.data} />
               ))}
             </ul>
           </section>
@@ -88,9 +88,9 @@ const homePath = getRelativeLocaleUrl(locale, "");
             Publicações Recentes
           </h2>
           <ul>
-            {recentPosts.map(({ id, data }, index) => (
+            {recentPosts.map((post, index) => (
               index < postsConfig.postPerIndex && (
-                <Card id={id} data={data} secHeading={false} />
+                <Card id={post.id} data={post.data} />
               )
             ))}
           </ul>
