@@ -56,7 +56,7 @@ export const SHARE_LINKS = [
     linkTitle: `Compartilhar no X`,
     active: true,
   },
-];
+] as const;
 
 export const site = SITE;
 export const locale = LOCALE;
