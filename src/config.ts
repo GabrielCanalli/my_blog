@@ -76,7 +76,7 @@ export const features = {
   lightAndDarkMode: SITE.lightAndDarkMode,
   search: true as any,
   showBackButton: true,
-  dynamicOgImage: false,
+  dynamicOgImage: true, // Ativado para gerar /og.png automaticamente e resolver o erro de imagem
 };
 
 const config = {
