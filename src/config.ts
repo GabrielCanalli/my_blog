@@ -1,4 +1,11 @@
-import type { Site, SocialObjects, ShareLinks } from "./types";
+import type { Site, SocialObjects } from "./types";
+
+export interface ShareLink {
+  name: string;
+  url: string;
+  linkTitle: string;
+  active: boolean;
+}
 
 export const SITE: Site = {
   website: "https://my-blog-amber-one.vercel.app/",
@@ -43,17 +50,17 @@ export const SOCIALS: SocialObjects = [
   },
 ];
 
-export const SHARE_LINKS: ShareLinks = [
+export const SHARE_LINKS: ShareLink[] = [
   {
     name: "WhatsApp",
     url: "https://api.whatsapp.com/send?text=",
-    linkTitle: `Compartilhar via WhatsApp`,
+    linkTitle: "Compartilhar via WhatsApp",
     active: true,
   },
   {
     name: "X",
     url: "https://x.com/intent/post?url=",
-    linkTitle: `Compartilhar no X`,
+    linkTitle: "Compartilhar no X",
     active: true,
   },
 ];
