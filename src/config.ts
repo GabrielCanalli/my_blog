@@ -1,4 +1,4 @@
-import type { Site, SocialObjects } from "./types";
+import type { Site, SocialObjects, ShareLinks } from "./types";
 
 export const SITE: Site = {
   website: "https://my-blog-amber-one.vercel.app/",
@@ -43,20 +43,20 @@ export const SOCIALS: SocialObjects = [
   },
 ];
 
-export const SHARE_LINKS = [
+export const SHARE_LINKS: ShareLinks = [
   {
     name: "WhatsApp",
-    href: "https://api.whatsapp.com/send?text=",
+    url: "https://api.whatsapp.com/send?text=",
     linkTitle: `Compartilhar via WhatsApp`,
     active: true,
   },
   {
     name: "X",
-    href: "https://x.com/intent/post?url=",
+    url: "https://x.com/intent/post?url=",
     linkTitle: `Compartilhar no X`,
     active: true,
   },
-] as const;
+];
 
 export const site = SITE;
 export const locale = LOCALE;
