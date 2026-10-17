@@ -41,7 +41,7 @@ export const LOGO_IMAGE = {
 export const SOCIALS = [
   {
     name: "Github",
-    href: "https://github.com/Canalli171",
+    url: "https://github.com/Canalli171",
     linkTitle: `${SITE.title} no Github`,
     active: true,
   },
@@ -50,13 +50,13 @@ export const SOCIALS = [
 export const SHARE_LINKS = [
   {
     name: "WhatsApp",
-    href: "https://api.whatsapp.com/send?text=",
+    url: "https://api.whatsapp.com/send?text=",
     linkTitle: "Compartilhar via WhatsApp",
     active: true,
   },
   {
     name: "X",
-    href: "https://x.com/intent/post?url=",
+    url: "https://x.com/intent/post?url=",
     linkTitle: "Compartilhar no X",
     active: true,
   },
@@ -74,7 +74,7 @@ export const features = {
   editPost: SITE.editPost,
   showArchives: SITE.showArchives,
   lightAndDarkMode: SITE.lightAndDarkMode,
-  search: true,
+  search: "pagefind" as const,
   showBackButton: true,
   dynamicOgImage: false,
 };
