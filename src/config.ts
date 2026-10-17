@@ -74,7 +74,7 @@ export const features = {
   editPost: SITE.editPost,
   showArchives: SITE.showArchives,
   lightAndDarkMode: SITE.lightAndDarkMode,
-  search: "pagefind" as const,
+  search: true as any,
   showBackButton: true,
   dynamicOgImage: false,
 };
