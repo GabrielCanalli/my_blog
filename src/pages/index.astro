@@ -10,14 +10,11 @@ import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
-import { useTranslations } from "@/i18n";
 import config from "@/config";
 
 const { socials, posts: postsConfig } = config;
 
 const locale = Astro.currentLocale ?? config.site.lang;
-const t = useTranslations(locale);
-
 const posts = await getCollection("posts");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
@@ -56,7 +53,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
         socials.length > 0 && (
           <div class="mt-4 flex flex-col sm:flex-row sm:items-center">
             <div class="mr-2 mb-1 whitespace-nowrap sm:mb-0">
-              {t("index.social.links")}:
+              Minhas redes:
             </div>
             <Socials />
           </div>
@@ -71,7 +68,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
         <>
           <section id="featured" class="pb-6 pt-8">
             <h2 class="text-2xl font-semibold tracking-wide">
-              {t("index.featured")}
+              Em Destaque
             </h2>
             <ul>
               {featuredPosts.map(post => (
@@ -88,7 +85,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
       recentPosts.length > 0 && (
         <section id="recent-posts" class="pb-6 pt-8">
           <h2 class="text-2xl font-semibold tracking-wide">
-            {t("index.recent.posts")}
+            Publicações Recentes
           </h2>
           <ul>
             {recentPosts.map((post, index) => (
@@ -103,7 +100,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
 
     <div class="all-posts-btn-wrapper my-8 text-center">
       <LinkButton href={getRelativeLocaleUrl(locale, "posts")}>
-        {t("index.all.posts")}
+        Todos os Posts
         <IconArrowRight class="inline-block h-5 w-5 fill-skin-base" />
       </LinkButton>
     </div>
