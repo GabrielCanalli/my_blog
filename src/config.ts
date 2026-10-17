@@ -16,7 +16,6 @@ export const SITE = {
     text: "Suggest Changes",
     appendFilePath: true,
   },
-  // Propriedades essenciais exigidas pelos componentes do AstroPaper v6:
   url: "https://my-blog-amber-one.vercel.app/",
   lang: "pt-BR",
   dir: "ltr" as const,
@@ -51,13 +50,13 @@ export const SOCIALS = [
 export const SHARE_LINKS = [
   {
     name: "WhatsApp",
-    url: "https://api.whatsapp.com/send?text=",
+    href: "https://api.whatsapp.com/send?text=",
     linkTitle: "Compartilhar via WhatsApp",
     active: true,
   },
   {
     name: "X",
-    url: "https://x.com/intent/post?url=",
+    href: "https://x.com/intent/post?url=",
     linkTitle: "Compartilhar no X",
     active: true,
   },
@@ -66,7 +65,8 @@ export const SHARE_LINKS = [
 export const posts = {
   postPerIndex: SITE.postPerIndex,
   postPerPage: SITE.postPerPage,
-  perPage: SITE.postPerPage, // Suporte para ambos os nomes de propriedade
+  perIndex: SITE.postPerIndex,
+  perPage: SITE.postPerPage,
   scheduledPostMargin: SITE.scheduledPostMargin,
 };
 
@@ -74,7 +74,7 @@ export const features = {
   editPost: SITE.editPost,
   showArchives: SITE.showArchives,
   lightAndDarkMode: SITE.lightAndDarkMode,
-  search: "pagefind" as const,
+  search: true,
   showBackButton: true,
   dynamicOgImage: false,
 };
