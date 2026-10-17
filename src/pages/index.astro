@@ -72,7 +72,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
             </h2>
             <ul>
               {featuredPosts.map(post => (
-                <Card id={post.id} data={post.data} />
+                <Card post={post} />
               ))}
             </ul>
           </section>
@@ -90,7 +90,7 @@ const homePath = getRelativeLocaleUrl(locale, "");
           <ul>
             {recentPosts.map((post, index) => (
               index < postsConfig.postPerIndex && (
-                <Card id={post.id} data={post.data} />
+                <Card post={post} />
               )
             ))}
           </ul>
