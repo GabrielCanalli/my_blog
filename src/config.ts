@@ -1,41 +1,33 @@
-/**
- * Internal resolved configuration used throughout the codebase.
- *
- * Prefer editing `astro-paper.config.ts` instead of this file. This module exists to
- * apply defaults and expose a fully-resolved config shape (`ResolvedAstroPaperConfig`).
- */
-import userConfig from "@/astro-paper.config";
-import type { ResolvedAstroPaperConfig } from "./types/config";
-import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
+export const SITE = {
+  website: "https://my-blog-amber-one.vercel.app/", 
+  author: "Gabriel Canalli Barbosa",
+  profile: "https://github.com/Canalli171",
+  desc: "Diário de escrita e bastidores da criação dos meus livros e tambem para comentar sobre coisas que eu gosto e da minha vida pessoal",
+  title: "Gabriel Canalli MY BLOG",
+  ogImage: "astropaper-og.jpg",
+  lightAndDarkMode: true,
+  postPerIndex: 4,
+  postPerPage: 3,
+  scheduledPostMargin: 15 * 60 * 1000,
+  showArchives: true,
+  editPost: {
+    enabled: false,
+    url: "https://github.com/satnaing/astro-paper/edit/main/src/content/posts/",
+    text: "Suggest Changes",
+    appendFilePath: true,
+  },
+} as const;
 
-const DEFAULT_OG_IMAGE = "default-og.jpg";
+export const LOCALE = {
+  lang: "pt-BR", 
+  timeZone: "America/Sao_Paulo", 
+  units: "week",
+} as const;
 
-const config: ResolvedAstroPaperConfig = {
-  site: {
-    ...userConfig.site,
-    ogImage: userConfig.site.ogImage ?? DEFAULT_OG_IMAGE,
-    lang: userConfig.site.lang ?? "en",
-    timezone: userConfig.site.timezone ?? "UTC",
-    dir: userConfig.site.dir ?? "ltr",
-    googleVerification:
-      userConfig.site.googleVerification || PUBLIC_GOOGLE_SITE_VERIFICATION,
-  },
-  posts: {
-    perPage: userConfig.posts?.perPage ?? 4,
-    perIndex: userConfig.posts?.perIndex ?? 4,
-    scheduledPostMargin:
-      userConfig.posts?.scheduledPostMargin ?? 15 * 60 * 1000,
-  },
-  features: {
-    lightAndDarkMode: userConfig.features?.lightAndDarkMode ?? true,
-    dynamicOgImage: userConfig.features?.dynamicOgImage ?? true,
-    showArchives: userConfig.features?.showArchives ?? true,
-    showBackButton: userConfig.features?.showBackButton ?? true,
-    editPost: userConfig.features?.editPost ?? { enabled: false },
-    search: userConfig.features?.search ?? "pagefind",
-  },
-  socials: userConfig.socials ?? [],
-  shareLinks: userConfig.shareLinks ?? [],
+export const LOGO_IMAGE = {
+  enable: false,
+  svg: true,
+  label: "Gabriel Canalli",
+  width: 40,
+  height: 40,
 };
-
-export default config;
