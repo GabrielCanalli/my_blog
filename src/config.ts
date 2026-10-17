@@ -1,4 +1,6 @@
-export const SITE = {
+import type { Site, SocialObjects } from "./types";
+
+export const SITE: Site = {
   website: "https://my-blog-amber-one.vercel.app/",
   author: "Gabriel Canalli Barbosa",
   profile: "https://github.com/Canalli171",
@@ -16,7 +18,7 @@ export const SITE = {
     text: "Suggest Changes",
     appendFilePath: true,
   },
-} as const;
+};
 
 export const LOCALE = {
   lang: "pt-BR",
@@ -31,3 +33,12 @@ export const LOGO_IMAGE = {
   width: 40,
   height: 40,
 };
+
+export const SOCIALS: SocialObjects = [
+  {
+    name: "Github",
+    href: "https://github.com/Canalli171",
+    linkTitle: ` ${SITE.title} no Github`,
+    active: true,
+  },
+];
