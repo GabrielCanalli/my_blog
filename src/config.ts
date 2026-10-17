@@ -43,11 +43,26 @@ export const SOCIALS: SocialObjects = [
   },
 ];
 
-// Configuração para compatibilidade interna
+export const SHARE_LINKS = [
+  {
+    name: "WhatsApp",
+    href: "https://api.whatsapp.com/send?text=",
+    linkTitle: `Compartilhar via WhatsApp`,
+    active: true,
+  },
+  {
+    name: "X",
+    href: "https://x.com/intent/post?url=",
+    linkTitle: `Compartilhar no X`,
+    active: true,
+  },
+];
+
 export const site = SITE;
 export const locale = LOCALE;
 export const logoImage = LOGO_IMAGE;
 export const socials = SOCIALS;
+export const shareLinks = SHARE_LINKS;
 
 export const posts = {
   postPerIndex: SITE.postPerIndex,
@@ -59,14 +74,15 @@ export const features = {
   editPost: SITE.editPost,
 };
 
-// Export default completo para o content.config.ts e componentes legados
 const config = {
   site: SITE,
   locale: LOCALE,
   logoImage: LOGO_IMAGE,
   socials: SOCIALS,
+  shareLinks: SHARE_LINKS,
   posts,
   features,
+  ...SITE,
 };
 
 export default config;
