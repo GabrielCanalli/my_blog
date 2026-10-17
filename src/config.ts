@@ -17,7 +17,7 @@ export const SITE = {
     appendFilePath: true,
   },
   url: "https://my-blog-amber-one.vercel.app/",
-  lang: "pt-BR",
+  lang: "en", // Alterado para bater com o i18n.locales padrão do Astro Config
   dir: "ltr" as const,
   description: "Diário de escrita e bastidores da criação dos meus livros e também para comentar sobre coisas que eu gosto e da minha vida pessoal",
   timezone: "America/Sao_Paulo",
@@ -25,7 +25,7 @@ export const SITE = {
 };
 
 export const LOCALE = {
-  lang: "pt-BR",
+  lang: "en",
   timeZone: "America/Sao_Paulo",
   units: "week",
 } as const;
@@ -76,7 +76,7 @@ export const features = {
   lightAndDarkMode: SITE.lightAndDarkMode,
   search: true as any,
   showBackButton: true,
-  dynamicOgImage: true, // Ativado para gerar /og.png automaticamente e resolver o erro de imagem
+  dynamicOgImage: true,
 };
 
 const config = {
