@@ -1,30 +1,36 @@
 ---
-import type { HTMLAttributes } from "astro/types";
 import Socials from "./Socials.astro";
-import { useTranslations } from "@/i18n";
 
-type Props = {
+export interface Props {
   noMarginTop?: boolean;
-} & HTMLAttributes<"footer">;
+}
 
-const { noMarginTop = false, class: className, ...attrs } = Astro.props;
-
-const t = useTranslations(Astro.currentLocale);
+const { noMarginTop = false } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 
-<footer
-  class:list={["app-layout", { "mt-auto": !noMarginTop }, className]}
-  {...attrs}
->
-  <div
-    class="border-border flex flex-col items-center justify-between border-t py-6 sm:flex-row-reverse sm:py-4"
-  >
-    <Socials />
-    <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row">
-      <span>{t.footer.copyright} &#169; {currentYear}</span>
-      <span class="hidden sm:inline">&nbsp;|&nbsp;</span>
-      <span>{t.footer.allRightsReserved}</span>
+<footer class:list={[{ "aria-label": "Site Footer" }, { "mt-auto": !noMarginTop }]}>
+  <div class="footer-wrapper app-layout">
+    <Socials centered />
+    <div class="copyright-wrapper">
+      <span>Copyright &#169; {currentYear}</span>
+      <span class="separator">&nbsp;|&nbsp;</span>
+      <span>Gabriel Canalli Barbosa. Todos os direitos reservados.</span>
     </div>
   </div>
 </footer>
+
+<style>
+  footer {
+    @apply w-full border-t border-skin-line py-6;
+  }
+  .footer-wrapper {
+    @apply flex flex-col items-center justify-between gap-2 sm:flex-row-reverse sm:py-4;
+  }
+  .copyright-wrapper {
+    @apply flex flex-col items-center whitespace-nowrap text-sm text-skin-base sm:flex-row;
+  }
+  .separator {
+    @apply hidden sm:inline;
+  }
+</style>
