@@ -1,109 +1,147 @@
 ---
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import IconRss from "@/assets/icons/IconRss.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
-import Card from "@/components/Card.astro";
-import LinkButton from "@/components/LinkButton.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import config from "@/config";
 
-const { socials, posts: postsConfig } = config;
-
+const { socials } = config;
 const locale = Astro.currentLocale ?? config.site.lang;
+
 const posts = await getCollection("posts");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
-const homePath = getRelativeLocaleUrl(locale, "");
+const allPosts = [...featuredPosts, ...recentPosts];
+
+// Obter os meses únicos dos posts para criar o bloco de arquivo/calendário estilo diário
+const archivesMap = new Map();
+allPosts.forEach(post => {
+  const date = new Date(post.data.pubDatetime);
+  const monthYear = date.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+  const formattedMonth = monthYear.charAt(0).toUpperCase() + monthYear.slice(1);
+  archivesMap.set(formattedMonth, (archivesMap.get(formattedMonth) || 0) + 1);
+});
+const archives = Array.from(archivesMap.entries());
 ---
 
 <Layout>
   <Header />
-  <main
-    id="main-content"
-    data-layout="index"
-    data-home-path={homePath}
-    class="app-layout my-1"
-  >
-    <section id="hero" class="pb-6 pt-8">
-      <h1 class="my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl">
-        Gabriel Canalli
-      </h1>
-      <a
-        target="_blank"
-        href={getRelativeLocaleUrl(locale, "rss.xml")}
-        class="rss-link"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss class="h-6 w-6 fill-skin-accent" />
-        <span class="sr-only">RSS Feed</span>
-      </a>
+  
+  <main id="main-content" class="app-layout py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      
+      <!-- COLUNA ESQUERDA: Sidebar estilo Not A Blog (Pesquisa, Arquivos/Calendário, Redes) -->
+      <aside class="lg:col-span-1 space-y-6 order-2 lg:order-1">
+        
+        <!-- Bloco de Pesquisa -->
+        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
+            Pesquisar no Blog
+          </h3>
+          <form action={getRelativeLocaleUrl(locale, "search")} method="get" class="flex gap-2">
+            <input 
+              type="text" 
+              name="q" 
+              placeholder="Pesquisar..." 
+              class="w-full px-3 py-1.5 text-sm bg-skin-fill border border-skin-line rounded focus:outline-none focus:border-skin-accent"
+            />
+            <button type="submit" class="px-3 py-1.5 text-sm bg-skin-accent text-skin-inverted rounded font-medium hover:opacity-90">
+              Ir
+            </button>
+          </form>
+        </div>
 
-      <p class="my-2">
-        Bem-vindo ao meu diário de escrita! Aqui compartilho os bastidores da criação do meu romance de fantasia <strong>Parabellum</strong>, notas literárias e pensamentos pessoais.
-      </p>
-
-      {
-        socials.length > 0 && (
-          <div class="mt-4 flex flex-col sm:flex-row sm:items-center">
-            <div class="mr-2 mb-1 whitespace-nowrap sm:mb-0">
-              Minhas redes:
-            </div>
-            <Socials />
-          </div>
-        )
-      }
-    </section>
-
-    <hr class="border-skin-line" />
-
-    {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured" class="pb-6 pt-8">
-            <h2 class="text-2xl font-semibold tracking-wide">
-              Em Destaque
-            </h2>
-            <ul>
-              {featuredPosts.map(post => (
-                <Card {...post} />
-              ))}
-            </ul>
-          </section>
-          <hr class="border-skin-line" />
-        </>
-      )
-    }
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pb-6 pt-8">
-          <h2 class="text-2xl font-semibold tracking-wide">
-            Publicações Recentes
-          </h2>
-          <ul>
-            {recentPosts.map((post, index) => (
-              index < postsConfig.postPerIndex && (
-                <Card {...post} />
-              )
+        <!-- Bloco de Arquivos / Calendário Mensal -->
+        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
+            Arquivo / Diário
+          </h3>
+          <ul class="space-y-2 text-sm">
+            {archives.map(([month, count]) => (
+              <li>
+                <a href={getRelativeLocaleUrl(locale, "archives")} class="flex justify-between hover:text-skin-accent transition-colors">
+                  <span>{month}</span>
+                  <span class="opacity-60">({count})</span>
+                </a>
+              </li>
             ))}
           </ul>
-        </section>
-      )
-    }
+        </div>
 
-    <div class="all-posts-btn-wrapper my-8 text-center">
-      <LinkButton href={getRelativeLocaleUrl(locale, "posts")}>
-        Todos os Posts
-        <IconArrowRight class="inline-block h-5 w-5 fill-skin-base" />
-      </LinkButton>
+        <!-- Bloco de Redes / Autoria -->
+        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
+            Sobre o Autor
+          </h3>
+          <p class="text-xs leading-relaxed opacity-90 mb-4">
+            Espaço dedicado aos bastidores do romance de fantasia <strong>Parabellum</strong> e notas de escrita por Gabriel Canalli Barbosa.
+          </p>
+          {socials.length > 0 && <Socials />}
+        </div>
+
+      </aside>
+
+      <!-- COLUNA DIREITA: Conteúdo Principal / Feed do Diário -->
+      <section class="lg:col-span-3 space-y-12 order-1 lg:order-2">
+        
+        <!-- Introdução do Autor -->
+        <div class="pb-6 border-b border-skin-line">
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Diário de Escrita & Notas
+          </h1>
+          <p class="text-base leading-relaxed opacity-90">
+            Bem-vindo ao meu diário de autor. Aqui compartilho o progresso literário, reflexões e os bastidores da criação do universo de <strong>Parabellum</strong>.
+          </p>
+        </div>
+
+        <!-- Feed de Posts Estilo Diário -->
+        <div class="space-y-10">
+          {allPosts.map((post) => {
+            const pubDate = new Date(post.data.pubDatetime);
+            const formattedDate = pubDate.toLocaleDateString('pt-BR', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric'
+            });
+
+            return (
+              <article class="pb-8 border-b border-skin-line/50 last:border-none">
+                <header class="mb-3">
+                  <h2 class="text-2xl font-bold hover:text-skin-accent transition-colors">
+                    <a href={getRelativeLocaleUrl(locale, `posts/${post.id}`)}>
+                      {post.data.title}
+                    </a>
+                  </h2>
+                  <div class="text-xs uppercase tracking-wider opacity-70 mt-1 font-mono">
+                    {formattedDate} {post.data.author ? `— por ${post.data.author}` : ''}
+                  </div>
+                </header>
+
+                <div class="prose prose-invert max-w-none text-sm leading-relaxed opacity-90 mb-4">
+                  <p>{post.data.description}</p>
+                </div>
+
+                <footer>
+                  <a 
+                    href={getRelativeLocaleUrl(locale, `posts/${post.id}`)}
+                    class="inline-flex items-center text-xs font-semibold text-skin-accent hover:underline"
+                  >
+                    Continuar a ler &rarr;
+                  </a>
+                </footer>
+              </article>
+            );
+          })}
+        </div>
+
+      </section>
+
     </div>
   </main>
+
   <Footer />
 </Layout>
