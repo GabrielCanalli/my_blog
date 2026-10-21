@@ -77,14 +77,23 @@ for (let day = 1; day <= daysInMonth; day++) {
           </form>
         </div>
 
-        <!-- Bloco do Autor -->
-        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
-          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
+        <!-- Bloco do Autor (Foto + Apresentação Aberta e Pessoal) -->
+        <div class="p-4 border border-skin-line rounded bg-skin-card/50 text-center">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent text-left">
             Sobre o Autor
           </h3>
-          <p class="text-xs leading-relaxed opacity-90 mb-4">
+          
+          <!-- Foto de Perfil do Autor -->
+          <img 
+            src="/assets/autor.jpg" 
+            alt="Gabriel Canalli Barbosa" 
+            class="w-full h-auto rounded border border-skin-line mb-3 object-cover max-h-52" 
+          />
+
+          <p class="text-xs leading-relaxed opacity-90 mb-4 text-justify">
             Este é o meu diário de bordo e portal pessoal. Aqui compartilho o processo de criação dos meus livros, bastidores de escrita, reflexões cotidianas e ideias.
           </p>
+          
           {socials.length > 0 && <Socials />}
         </div>
 
