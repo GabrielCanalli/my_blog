@@ -1,12 +1,16 @@
 ---
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { Image } from "astro:assets";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import config from "@/config";
+
+// Importação direta da foto do autor a partir de src/assets/images/
+import autorImg from "@/assets/images/WhatsApp Image 2026-10-20 at 21.43.49.jpeg";
 
 const { socials } = config;
 const locale = Astro.currentLocale ?? config.site.lang;
@@ -17,20 +21,17 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 const allPosts = [...featuredPosts, ...recentPosts];
 
-// LÓGICA DO CALENDÁRIO ESTILO NOT A BLOG
+// Lógica do Calendário de Publicações
 const today = new Date();
 const currentYear = today.getFullYear();
 const currentMonth = today.getMonth();
 
-// Nome do mês atual em português
 const monthName = today.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 const formattedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
-// Dias do mês e dia da semana em que começa (0 = Domingo)
 const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-// Mapear dias que possuem posts publicados no mês atual
 const postsByDay = new Map();
 allPosts.forEach(post => {
   const pDate = new Date(post.data.pubDatetime);
@@ -40,7 +41,6 @@ allPosts.forEach(post => {
   }
 });
 
-// Construção das células do calendário (dias em branco antes do dia 1 + dias do mês)
 const calendarCells = [];
 for (let i = 0; i < firstDayOfMonth; i++) {
   calendarCells.push(null);
@@ -56,10 +56,10 @@ for (let day = 1; day <= daysInMonth; day++) {
   <main id="main-content" class="app-layout py-8">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
       
-      <!-- COLUNA ESQUERDA: Sidebar com Calendário Visual -->
+      <!-- COLUNA ESQUERDA: Sidebar -->
       <aside class="lg:col-span-1 space-y-6 order-2 lg:order-1">
         
-        <!-- Bloco de Pesquisa -->
+        <!-- Pesquisa -->
         <div class="p-4 border border-skin-line rounded bg-skin-card/50">
           <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
             Pesquisar no Blog
@@ -77,17 +77,16 @@ for (let day = 1; day <= daysInMonth; day++) {
           </form>
         </div>
 
-        <!-- Bloco do Autor (Foto + Apresentação Aberta e Pessoal) -->
-        <div class="p-4 border border-skin-line rounded bg-skin-card/50 text-center">
-          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent text-left">
+        <!-- Sobre o Autor com Foto Exibida -->
+        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
             Sobre o Autor
           </h3>
           
-          <!-- Foto de Perfil do Autor -->
-          <img 
-            src="/assets/autor.jpg" 
+          <Image 
+            src={autorImg} 
             alt="Gabriel Canalli Barbosa" 
-            class="w-full h-auto rounded border border-skin-line mb-3 object-cover max-h-52" 
+            class="w-full h-auto rounded border border-skin-line mb-3 object-cover max-h-56" 
           />
 
           <p class="text-xs leading-relaxed opacity-90 mb-4 text-justify">
@@ -97,19 +96,17 @@ for (let day = 1; day <= daysInMonth; day++) {
           {socials.length > 0 && <Socials />}
         </div>
 
-        <!-- Bloco de Calendário do Diário (Estilo GRRM) -->
+        <!-- Calendário do Diário -->
         <div class="p-4 border border-skin-line rounded bg-skin-card/50">
           <h3 class="text-sm font-semibold uppercase tracking-wider mb-1 text-skin-accent text-center">
             {formattedMonthName}
           </h3>
           <p class="text-[10px] text-center opacity-60 mb-3 font-mono">DIÁRIO DE PUBLICAÇÃO</p>
 
-          <!-- Grelha dos Dias da Semana -->
           <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold mb-2 opacity-70">
             <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
           </div>
 
-          <!-- Grelha dos Dias do Mês -->
           <div class="grid grid-cols-7 gap-1 text-center text-xs font-mono">
             {calendarCells.map((day) => {
               if (day === null) {
@@ -146,10 +143,9 @@ for (let day = 1; day <= daysInMonth; day++) {
 
       </aside>
 
-      <!-- COLUNA DIREITA: Feed do Diário -->
+      <!-- COLUNA DIREITA: Feed -->
       <section class="lg:col-span-3 space-y-12 order-1 lg:order-2">
         
-        <!-- Cabeçalho Principal -->
         <div class="pb-6 border-b border-skin-line">
           <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
             Diário de Escrita & Notas
@@ -159,7 +155,6 @@ for (let day = 1; day <= daysInMonth; day++) {
           </p>
         </div>
 
-        <!-- Feed de Posts -->
         <div class="space-y-10">
           {allPosts.map((post) => {
             const pubDate = new Date(post.data.pubDatetime);
@@ -185,24 +180,3 @@ for (let day = 1; day <= daysInMonth; day++) {
                 <div class="prose prose-invert max-w-none text-sm leading-relaxed opacity-90 mb-4">
                   <p>{post.data.description}</p>
                 </div>
-
-                <footer>
-                  <a 
-                    href={getRelativeLocaleUrl(locale, `posts/${post.id}`)}
-                    class="inline-flex items-center text-xs font-semibold text-skin-accent hover:underline"
-                  >
-                    Continuar a ler &rarr;
-                  </a>
-                </footer>
-              </article>
-            );
-          })}
-        </div>
-
-      </section>
-
-    </div>
-  </main>
-
-  <Footer />
-</Layout>
