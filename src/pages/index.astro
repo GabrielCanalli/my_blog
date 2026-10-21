@@ -56,8 +56,8 @@ for (let day = 1; day <= daysInMonth; day++) {
       <aside class="lg:col-span-1 space-y-6 order-2 lg:order-1">
         
         <!-- Pesquisa -->
-        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
-          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
+        <div class="p-4 border border-border rounded bg-card/50">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-accent">
             Pesquisar no Blog
           </h3>
           <form action={getRelativeLocaleUrl(locale, "search")} method="get" class="flex gap-2">
@@ -65,36 +65,36 @@ for (let day = 1; day <= daysInMonth; day++) {
               type="text" 
               name="q" 
               placeholder="Pesquisar..." 
-              class="w-full px-3 py-1.5 text-sm bg-skin-fill border border-skin-line rounded focus:outline-none focus:border-skin-accent"
+              class="w-full px-3 py-1.5 text-sm bg-background border border-border rounded focus:outline-none focus:border-accent"
             />
-            <button type="submit" class="px-3 py-1.5 text-sm bg-skin-accent text-skin-inverted rounded font-medium hover:opacity-90">
+            <button type="submit" class="px-3 py-1.5 text-sm bg-accent text-background rounded font-medium hover:opacity-90">
               Ir
             </button>
           </form>
         </div>
 
-       <!-- Sobre o Autor -->
-<div class="p-4 border border-skin-line rounded bg-skin-card/50">
-  <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
-    Sobre o Autor
-  </h3>
-  
-  <img 
-    src="/autor.jpg" 
-    alt="Gabriel Canalli Barbosa" 
-    class="w-full h-auto rounded border border-skin-line mb-3 object-cover max-h-56" 
-  />
+        <!-- Sobre o Autor -->
+        <div class="p-4 border border-border rounded bg-card/50">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-accent">
+            Sobre o Autor
+          </h3>
+          
+          <img 
+            src="/autor.jpg" 
+            alt="Gabriel Canalli Barbosa" 
+            class="w-full h-auto rounded border border-border mb-3 object-cover max-h-56" 
+          />
 
-  <p class="text-xs leading-relaxed opacity-90 mb-4 text-justify">
-    Este é o meu diário de bordo e portal pessoal. Aqui compartilho o processo de criação dos meus livros, bastidores de escrita, reflexões cotidianas e ideias.
-  </p>
-  
-  {socials.length > 0 && <Socials />}
-</div>
+          <p class="text-xs leading-relaxed opacity-90 mb-4 text-justify">
+            Este é o meu diário de bordo e portal pessoal. Aqui compartilho o processo de criação dos meus livros, bastidores de escrita, reflexões cotidianas e ideias.
+          </p>
+          
+          {socials.length > 0 && <Socials />}
+        </div>
 
         <!-- Calendário do Diário -->
-        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
-          <h3 class="text-sm font-semibold uppercase tracking-wider mb-1 text-skin-accent text-center">
+        <div class="p-4 border border-border rounded bg-card/50">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-1 text-accent text-center">
             {formattedMonthName}
           </h3>
           <p class="text-[10px] text-center opacity-60 mb-3 font-mono">DIÁRIO DE PUBLICAÇÃO</p>
@@ -113,12 +113,12 @@ for (let day = 1; day <= daysInMonth; day++) {
               const isToday = day === today.getDate();
 
               return (
-                <div class={`py-1 rounded ${isToday ? 'border border-skin-accent' : ''}`}>
+                <div class={`py-1 rounded ${isToday ? 'border border-accent' : ''}`}>
                   {post ? (
                     <a 
                       href={getRelativeLocaleUrl(locale, `posts/${post.id}`)}
                       title={post.data.title}
-                      class="block font-bold text-skin-accent underline bg-skin-accent/10 rounded hover:bg-skin-accent hover:text-skin-inverted transition-colors"
+                      class="block font-bold text-accent underline bg-accent/10 rounded hover:bg-accent hover:text-background transition-colors"
                     >
                       {day}
                     </a>
@@ -130,8 +130,8 @@ for (let day = 1; day <= daysInMonth; day++) {
             })}
           </div>
 
-          <div class="mt-4 pt-3 border-t border-skin-line/40 text-center">
-            <a href={getRelativeLocaleUrl(locale, "archives")} class="text-xs text-skin-accent hover:underline">
+          <div class="mt-4 pt-3 border-t border-border/40 text-center">
+            <a href={getRelativeLocaleUrl(locale, "archives")} class="text-xs text-accent hover:underline">
               Ver Arquivo Completo &rarr;
             </a>
           </div>
@@ -142,7 +142,7 @@ for (let day = 1; day <= daysInMonth; day++) {
       <!-- COLUNA DIREITA: Feed -->
       <section class="lg:col-span-3 space-y-12 order-1 lg:order-2">
         
-        <div class="pb-6 border-b border-skin-line">
+        <div class="pb-6 border-b border-border">
           <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
             Diário de Escrita & Notas
           </h1>
@@ -161,9 +161,9 @@ for (let day = 1; day <= daysInMonth; day++) {
             });
 
             return (
-              <article class="pb-8 border-b border-skin-line/50 last:border-none">
+              <article class="pb-8 border-b border-border/50 last:border-none">
                 <header class="mb-3">
-                  <h2 class="text-2xl font-bold hover:text-skin-accent transition-colors">
+                  <h2 class="text-2xl font-bold hover:text-accent transition-colors">
                     <a href={getRelativeLocaleUrl(locale, `posts/${post.id}`)}>
                       {post.data.title}
                     </a>
@@ -180,7 +180,7 @@ for (let day = 1; day <= daysInMonth; day++) {
                 <footer>
                   <a 
                     href={getRelativeLocaleUrl(locale, `posts/${post.id}`)}
-                    class="inline-flex items-center text-xs font-semibold text-skin-accent hover:underline"
+                    class="inline-flex items-center text-xs font-semibold text-accent hover:underline"
                   >
                     Continuar a ler &rarr;
                   </a>
