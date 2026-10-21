@@ -25,11 +25,6 @@ const {
   modDatetime,
   scrollSmooth = true,
 } = Astro.props;
-
-const socialImageURL = new URL(
-  ogImage ?? config.site.ogImage ?? "og.png",
-  Astro.url.origin
-).href;
 ---
 
 <!doctype html>
@@ -50,6 +45,31 @@ const socialImageURL = new URL(
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
+
+    <!-- SCRIPT PARA TROCA DE TEMA (DARK / LIGHT) -->
+    <script is:inline>
+      const primaryTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", primaryTheme);
+      if (primaryTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeBtn = document.querySelector("#theme-btn");
+        if (themeBtn) {
+          themeBtn.addEventListener("click", () => {
+            const isDark = document.documentElement.classList.contains("dark");
+            const newTheme = isDark ? "light" : "dark";
+            
+            localStorage.setItem("theme", newTheme);
+            document.documentElement.setAttribute("data-theme", newTheme);
+            document.documentElement.classList.toggle("dark", !isDark);
+          });
+        }
+      });
+    </script>
   </head>
   <body class="bg-background text-foreground min-h-screen">
     <slot />
