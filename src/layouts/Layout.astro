@@ -35,7 +35,7 @@ const socialImageURL = new URL(
 <!doctype html>
 <html
   lang={config.site.lang ?? "pt-BR"}
-  class={`${scrollSmooth ? "scroll-smooth" : ""}`}
+  class={`dark ${scrollSmooth ? "scroll-smooth" : ""}`}
   data-theme="dark"
 >
   <head>
@@ -50,16 +50,8 @@ const socialImageURL = new URL(
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
-
-    <!-- Script para manter o tema escuro salvo -->
-    <script is:inline>
-      const currentTheme = localStorage.getItem("theme") || "dark";
-      document.documentElement.setAttribute("data-theme", currentTheme);
-    </script>
-
-    <script is:inline src="/toggle-theme.js"></script>
   </head>
-  <body class="bg-skin-fill text-skin-base selection:bg-skin-accent selection:text-skin-inverted">
+  <body class="bg-background text-foreground min-h-screen">
     <slot />
   </body>
 </html>
