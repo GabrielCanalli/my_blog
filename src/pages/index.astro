@@ -17,7 +17,7 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 const allPosts = [...featuredPosts, ...recentPosts];
 
-// Obter os meses únicos dos posts para criar o bloco de arquivo/calendário estilo diário
+// Obter os meses únicos dos posts para o arquivo do diário
 const archivesMap = new Map();
 allPosts.forEach(post => {
   const date = new Date(post.data.pubDatetime);
@@ -34,7 +34,7 @@ const archives = Array.from(archivesMap.entries());
   <main id="main-content" class="app-layout py-8">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
       
-      <!-- COLUNA ESQUERDA: Sidebar estilo Not A Blog (Pesquisa, Arquivos/Calendário, Redes) -->
+      <!-- COLUNA ESQUERDA: Sidebar estilo Not A Blog -->
       <aside class="lg:col-span-1 space-y-6 order-2 lg:order-1">
         
         <!-- Bloco de Pesquisa -->
@@ -55,7 +55,23 @@ const archives = Array.from(archivesMap.entries());
           </form>
         </div>
 
-        <!-- Bloco de Arquivos / Calendário Mensal -->
+        <!-- Bloco do Autor (Foto + Apresentação Aberta e Pessoal) -->
+        <div class="p-4 border border-skin-line rounded bg-skin-card/50 text-center sm:text-left">
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
+            Sobre o Autor
+          </h3>
+          
+          {/* Caso queira colocar uma imagem de perfil no futuro, basta descomentar a linha abaixo */}
+          {/* <img src="/assets/autor.jpg" alt="Gabriel Canalli Barbosa" class="w-full h-auto rounded border border-skin-line mb-3" /> */}
+
+          <p class="text-xs leading-relaxed opacity-90 mb-4 text-justify">
+            Este é o meu diário de bordo e portal pessoal. Aqui compartilho o processo de criação dos meus livros, bastidores de escrita, reflexões cotidianas e coisas que gosto.
+          </p>
+          
+          {socials.length > 0 && <Socials />}
+        </div>
+
+        <!-- Bloco de Arquivos / Diário Mensal -->
         <div class="p-4 border border-skin-line rounded bg-skin-card/50">
           <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
             Arquivo / Diário
@@ -72,33 +88,22 @@ const archives = Array.from(archivesMap.entries());
           </ul>
         </div>
 
-        <!-- Bloco de Redes / Autoria -->
-        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
-          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
-            Sobre o Autor
-          </h3>
-          <p class="text-xs leading-relaxed opacity-90 mb-4">
-            Espaço dedicado aos bastidores do romance de fantasia <strong>Parabellum</strong> e notas de escrita por Gabriel Canalli Barbosa.
-          </p>
-          {socials.length > 0 && <Socials />}
-        </div>
-
       </aside>
 
-      <!-- COLUNA DIREITA: Conteúdo Principal / Feed do Diário -->
+      <!-- COLUNA DIREITA: Feed do Diário -->
       <section class="lg:col-span-3 space-y-12 order-1 lg:order-2">
         
-        <!-- Introdução do Autor -->
+        <!-- Cabeçalho Geral do Diário -->
         <div class="pb-6 border-b border-skin-line">
-          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
             Diário de Escrita & Notas
           </h1>
           <p class="text-base leading-relaxed opacity-90">
-            Bem-vindo ao meu diário de autor. Aqui compartilho o progresso literário, reflexões e os bastidores da criação do universo de <strong>Parabellum</strong>.
+            Meu espaço pessoal para registrar a evolução das minhas histórias, ideias, opiniões e novidades.
           </p>
         </div>
 
-        <!-- Feed de Posts Estilo Diário -->
+        <!-- Feed de Posts -->
         <div class="space-y-10">
           {allPosts.map((post) => {
             const pubDate = new Date(post.data.pubDatetime);
