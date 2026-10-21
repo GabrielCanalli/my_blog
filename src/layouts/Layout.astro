@@ -42,17 +42,16 @@ const socialImageURL = new URL(
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     
-    <!-- FAVICON (Direto na raiz de public/) -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="shortcut icon" type="image/png" href="/favicon.png" />
     
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Meta Tags Gerais -->
     <title>{title}</title>
 
-    <!-- Script de Inicialização para Forçar Dark Mode no Carregamento -->
+    <!-- Script para manter o tema escuro salvo -->
     <script is:inline>
       const currentTheme = localStorage.getItem("theme") || "dark";
       document.documentElement.setAttribute("data-theme", currentTheme);
