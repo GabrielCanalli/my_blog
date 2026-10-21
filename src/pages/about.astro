@@ -1,36 +1,25 @@
 ---
-import { getEntry, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Main from "@/components/Main.astro";
 import Footer from "@/components/Footer.astro";
-import config from "@/config";
-
-const about = await getEntry("pages", "about");
-
-if (!about) {
-  throw new Error(
-    "Missing content entry: `about.md` or `about.mdx` in `src/content/pages/`"
-  );
-}
-
-const { Content } = await render(about);
+import Main from "@/layouts/Main.astro";
 ---
 
-<Layout
-  title={`${about.data.title} | ${config.site.title}`}
-  description={about.data.description}
-  ogImage={about.data.ogImage}
-  canonicalURL={about.data.canonicalURL}
->
+<Layout title="Sobre | Gabriel Canalli">
   <Header />
-
-  <Breadcrumb />
-
-  <Main pageTitle={about.data.title} class="app-prose">
-    <Content />
+  <Main pageTitle="Sobre o Autor" pageDesc="Bastidores da criação do universo de Parabellum e diário pessoal.">
+    <section id="about" class="prose max-w-3xl prose-img:border-0">
+      <p>
+        Olá! Sou <strong>Gabriel Canalli Barbosa</strong>, estudante de Sistemas de Informação e autor.
+      </p>
+      <p>
+        Este blog é o meu diário de bordo e portal oficial de publicação. Aqui compartilho as notas de criação, bastidores da construção de mundo, desenvolvimento de personagens e os avanços dos meus livros!
+      </p>
+  
+      <p>
+        Além dos registros sobre o livro, este espaço também serve para registrar reflexões pessoais, novos projetos de tecnologia e ideias do dia a dia.
+      </p>
+    </section>
   </Main>
-
   <Footer />
 </Layout>
