@@ -42,7 +42,7 @@ const socialImageURL = new URL(
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     
-    <!-- FAVICON (Lê direto da raiz do public) -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="shortcut icon" type="image/png" href="/favicon.png" />
     
@@ -51,6 +51,12 @@ const socialImageURL = new URL(
 
     <!-- General Meta Tags -->
     <title>{title}</title>
+
+    <!-- Script de Inicialização de Tema (Força Dark Mode) -->
+    <script is:inline>
+      const theme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+    </script>
 
     <script is:inline src="/toggle-theme.js"></script>
   </head>
