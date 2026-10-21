@@ -17,15 +17,37 @@ const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 const allPosts = [...featuredPosts, ...recentPosts];
 
-// Obter os meses únicos dos posts para o arquivo do diário
-const archivesMap = new Map();
+// LÓGICA DO CALENDÁRIO ESTILO NOT A BLOG
+const today = new Date();
+const currentYear = today.getFullYear();
+const currentMonth = today.getMonth();
+
+// Nome do mês atual em português
+const monthName = today.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+const formattedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+
+// Dias do mês e dia da semana em que começa (0 = Domingo)
+const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+// Mapear dias que possuem posts publicados no mês atual
+const postsByDay = new Map();
 allPosts.forEach(post => {
-  const date = new Date(post.data.pubDatetime);
-  const monthYear = date.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
-  const formattedMonth = monthYear.charAt(0).toUpperCase() + monthYear.slice(1);
-  archivesMap.set(formattedMonth, (archivesMap.get(formattedMonth) || 0) + 1);
+  const pDate = new Date(post.data.pubDatetime);
+  if (pDate.getFullYear() === currentYear && pDate.getMonth() === currentMonth) {
+    const dayNum = pDate.getDate();
+    postsByDay.set(dayNum, post);
+  }
 });
-const archives = Array.from(archivesMap.entries());
+
+// Construção das células do calendário (dias em branco antes do dia 1 + dias do mês)
+const calendarCells = [];
+for (let i = 0; i < firstDayOfMonth; i++) {
+  calendarCells.push(null);
+}
+for (let day = 1; day <= daysInMonth; day++) {
+  calendarCells.push(day);
+}
 ---
 
 <Layout>
@@ -34,7 +56,7 @@ const archives = Array.from(archivesMap.entries());
   <main id="main-content" class="app-layout py-8">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
       
-      <!-- COLUNA ESQUERDA: Sidebar estilo Not A Blog -->
+      <!-- COLUNA ESQUERDA: Sidebar com Calendário Visual -->
       <aside class="lg:col-span-1 space-y-6 order-2 lg:order-1">
         
         <!-- Bloco de Pesquisa -->
@@ -55,37 +77,62 @@ const archives = Array.from(archivesMap.entries());
           </form>
         </div>
 
-        <!-- Bloco do Autor (Foto + Apresentação Aberta e Pessoal) -->
-        <div class="p-4 border border-skin-line rounded bg-skin-card/50 text-center sm:text-left">
+        <!-- Bloco do Autor -->
+        <div class="p-4 border border-skin-line rounded bg-skin-card/50">
           <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
             Sobre o Autor
           </h3>
-          
-          {/* Caso queira colocar uma imagem de perfil no futuro, basta descomentar a linha abaixo */}
-          {/* <img src="/assets/autor.jpg" alt="Gabriel Canalli Barbosa" class="w-full h-auto rounded border border-skin-line mb-3" /> */}
-
-          <p class="text-xs leading-relaxed opacity-90 mb-4 text-justify">
-            Este é o meu diário de bordo e portal pessoal. Aqui compartilho o processo de criação dos meus livros, bastidores de escrita, reflexões cotidianas e coisas que gosto.
+          <p class="text-xs leading-relaxed opacity-90 mb-4">
+            Este é o meu diário de bordo e portal pessoal. Aqui compartilho o processo de criação dos meus livros, bastidores de escrita, reflexões cotidianas e ideias.
           </p>
-          
           {socials.length > 0 && <Socials />}
         </div>
 
-        <!-- Bloco de Arquivos / Diário Mensal -->
+        <!-- Bloco de Calendário do Diário (Estilo GRRM) -->
         <div class="p-4 border border-skin-line rounded bg-skin-card/50">
-          <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 text-skin-accent">
-            Arquivo / Diário
+          <h3 class="text-sm font-semibold uppercase tracking-wider mb-1 text-skin-accent text-center">
+            {formattedMonthName}
           </h3>
-          <ul class="space-y-2 text-sm">
-            {archives.map(([month, count]) => (
-              <li>
-                <a href={getRelativeLocaleUrl(locale, "archives")} class="flex justify-between hover:text-skin-accent transition-colors">
-                  <span>{month}</span>
-                  <span class="opacity-60">({count})</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+          <p class="text-[10px] text-center opacity-60 mb-3 font-mono">DIÁRIO DE PUBLICAÇÃO</p>
+
+          <!-- Grelha dos Dias da Semana -->
+          <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold mb-2 opacity-70">
+            <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+          </div>
+
+          <!-- Grelha dos Dias do Mês -->
+          <div class="grid grid-cols-7 gap-1 text-center text-xs font-mono">
+            {calendarCells.map((day) => {
+              if (day === null) {
+                return <div class="py-1"></div>;
+              }
+              
+              const post = postsByDay.get(day);
+              const isToday = day === today.getDate();
+
+              return (
+                <div class={`py-1 rounded ${isToday ? 'border border-skin-accent' : ''}`}>
+                  {post ? (
+                    <a 
+                      href={getRelativeLocaleUrl(locale, `posts/${post.id}`)}
+                      title={post.data.title}
+                      class="block font-bold text-skin-accent underline bg-skin-accent/10 rounded hover:bg-skin-accent hover:text-skin-inverted transition-colors"
+                    >
+                      {day}
+                    </a>
+                  ) : (
+                    <span class="opacity-40">{day}</span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-skin-line/40 text-center">
+            <a href={getRelativeLocaleUrl(locale, "archives")} class="text-xs text-skin-accent hover:underline">
+              Ver Arquivo Completo &rarr;
+            </a>
+          </div>
         </div>
 
       </aside>
@@ -93,7 +140,7 @@ const archives = Array.from(archivesMap.entries());
       <!-- COLUNA DIREITA: Feed do Diário -->
       <section class="lg:col-span-3 space-y-12 order-1 lg:order-2">
         
-        <!-- Cabeçalho Geral do Diário -->
+        <!-- Cabeçalho Principal -->
         <div class="pb-6 border-b border-skin-line">
           <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
             Diário de Escrita & Notas
