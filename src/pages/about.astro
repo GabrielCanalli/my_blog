@@ -2,24 +2,31 @@
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Main from "@/layouts/Main.astro";
 ---
 
 <Layout title="Sobre | Gabriel Canalli">
   <Header />
-  <Main pageTitle="Sobre o Autor" pageDesc="Bastidores da criação do universo de Parabellum e diário pessoal.">
-    <section id="about" class="prose max-w-3xl prose-img:border-0">
+
+  <main id="main-content" class="app-layout py-8">
+    <section id="about" class="prose max-w-3xl prose-img:border-0 mx-auto">
+      <h1 class="text-3xl font-bold mb-2">Sobre o Autor</h1>
+      <p class="text-sm opacity-80 mb-6">
+        Bastidores da criação dos meus livros e diário pessoal.
+      </p>
+
       <p>
         Olá! Sou <strong>Gabriel Canalli Barbosa</strong>, estudante de Sistemas de Informação e autor.
       </p>
+      
       <p>
         Este blog é o meu diário de bordo e portal oficial de publicação. Aqui compartilho as notas de criação, bastidores da construção de mundo, desenvolvimento de personagens e os avanços dos meus livros!
       </p>
-  
+
       <p>
-        Além dos registros sobre o livro, este espaço também serve para registrar reflexões pessoais, novos projetos de tecnologia e ideias do dia a dia.
+        Além dos registros sobre a escrita, este espaço também serve para registrar reflexões pessoais, novos projetos de tecnologia e ideias do dia a dia.
       </p>
     </section>
-  </Main>
+  </main>
+
   <Footer />
 </Layout>
